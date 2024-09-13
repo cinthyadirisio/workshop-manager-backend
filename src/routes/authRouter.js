@@ -4,7 +4,7 @@ import userController from '../controllers/authController.js'
 const authRouter = express.Router()
 
 authRouter.get( '/', userController.getAllUsers )
-authRouter.get( '/', userController.getUsersByWorkshop )
+// authRouter.get( '/', userController.getUsersByWorkshop )
 authRouter.get( '/:id', userController.getOneUserByID )
 authRouter.get( '/', userController.getOneUserByName )
 authRouter.post( '/', userController.createUser )

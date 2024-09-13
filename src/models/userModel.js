@@ -6,7 +6,7 @@ const userSchema = new Schema({
     photo: String,
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    gender: String,
+    DNI:{ type: Number, required: true, unique:true},
     workshops: [{ type: Schema.Types.ObjectId, ref: 'Workshop' }],
     role: { type: String, enum: ['admin', 'user', 'instructor'], default: 'user' }
 })
