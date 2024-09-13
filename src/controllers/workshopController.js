@@ -32,6 +32,7 @@ const workshopsController = {
     async createOne(req, res){
         try {
             let newWorkshop = await workshopModel.create( req.body )
+            if(!newWorkshop) throw new Error( `The workshop couldn't be created` )
             res.status(201).json({newWorkshop})
         } catch (error) {
             res.status(400).json({error})
@@ -41,6 +42,7 @@ const workshopsController = {
         try {
             let workshop = await workshopModel.findByIdAndDelete( req.params.id )
             if(!workshop) throw new Error( `The provided ID doesn't match any registered IDs, couldn't delete` )
+            res.status(200).json({workshop})
         } catch (error) {
             res.status(400).json({error})
         }
@@ -48,7 +50,7 @@ const workshopsController = {
     async updateOne( req, res ){
         try {
             let workshop = await workshopModel.findByIdAndUpdate( {_id: req.params.id}, req.body, {new:true} )
-            if(!workshop) throw new Error( `The provided ID doesn't match any registered IDs, couldn't update` )
+            if(!workshop) throw new Error( `The provided ID doesn't match any registered workshop IDs, couldn't update` )
             res.status(200).json({workshop})
         } catch (error) {
             res.status(400).json({error})
