@@ -1,9 +1,9 @@
-import subjectModel from '../models/subjectModel.js'
+import subjectServices from "../services/subjectServices.js"
 
 const subjectController = {
     async getAllSubjects( req, res ){
         try {
-            let allSubjects = await subjectModel.find()
+            let allSubjects = await subjectServices.getAllSubjects()
             res.status(200).json({allSubjects})
         } catch (error) {
             res.status(400).json( {error} )
@@ -19,8 +19,7 @@ const subjectController = {
     // },
     async getOneById( req, res ){
         try {
-            let subject = await subjectModel.findById( req.params.id )
-            if(!subject) throw new Error( `The provided ID doesn't match any registered subject IDs` )
+           let subject = await subjectServices.getOneById( req.params.id )
             res.status(200).json( { subject } )
         } catch (error) {
             res.status(400).json( {error} )
@@ -28,8 +27,7 @@ const subjectController = {
     },
     async createOne( req, res ){
         try {
-            let newSubject = await subjectModel.create( req.body )
-            if(!newSubject) throw new Error( `The subject couldn't be created` )
+            let newSubject = await subjectServices.createOne( req.body )
             res.status(201).json({newSubject})
         } catch (error) {
             res.status(400).json( {error} )
@@ -37,8 +35,7 @@ const subjectController = {
     },
     async deleteOne( req, res ){
         try {
-            let subject = await subjectModel.findByIdAndDelete( req.params.id )
-            if(!subject) throw new Error( `The provided ID doesn't match any registered subject IDs, couldn't delete` )
+            let subject = await subjectServices.deleteOne( req.params.id )
             res.status(200).json({subject})
         } catch (error) {
             res.status(400).json( {error} )
@@ -46,8 +43,7 @@ const subjectController = {
     },
     async updateOne( req, res ){
         try {
-            let subject = await subjectModel.findByIdAndUpdate( {_id: req.params.id}, req.body, {new:true} )
-            if(!subject) throw new Error( `The provided ID doesn't match any registered subject IDs, couldn't update` )
+            let subject = await subjectServices.updateOne( req.params.id, req.body, {new:true} )
             res.status(200).json({subject})
         } catch (error) {
             res.status(400).json( {error} )

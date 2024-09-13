@@ -1,9 +1,10 @@
-import userModel from '../models/userModel.js'
+import userModel from "../models/userModel.js"
+import userServices from "../services/authServices.js"
 
 const userController = {
     async getAllUsers(req, res) {
         try {
-            let allUsers = await userModel.find()
+            let allUsers = await userServices.getAllUsers()
             res.status(200).json({allUsers})
         } catch (error) {
             res.status(400).json({ error })
@@ -11,8 +12,7 @@ const userController = {
     },
     async getOneUserByID(req, res) {
         try {
-            let user = await userModel.findById( req.params.id )
-            if(!user) throw new Error(`The provided ID doesn't match any registered IDs`)
+            let user = await userServices.getOneUserByID( req.params.id )
             res.status(200).json({user})
         } catch (error) {
             res.status(400).json({ error })
@@ -20,8 +20,7 @@ const userController = {
     },
     async getOneUserByName(req, res) {
         try {
-            let user = await userModel.findOne( { firstName: req.body.firstName } )
-            if(!user) throw new Error( 'No users found with the provided name' )
+            
             res.status(200).json({user})
         } catch (error) {
             res.status(400).json({ error })
@@ -36,8 +35,7 @@ const userController = {
     // },
     async updateUser(req, res) {
         try {
-            let updatedUser = await userModel.findByIdAndUpdate( {id: req.params.id}, req.body, {new:true} )
-            if(!updatedUser) throw new Error( `The provided ID doesn't match any registered user IDs, couldn't update` )
+            let updatedUser = await userServices.updateUser({_id:req.params.id}, req.body, {new:true})
             res.status(200).json({updatedUser})
         } catch (error) {
             res.status(400).json({ error })
@@ -45,20 +43,38 @@ const userController = {
     },
     async deleteUser(req, res) {
         try {
-           let user = await userModel.findByIdAndDelete( req.params.id )
-           if(!user) throw new Error( `The provided ID doesn't match any registered IDs, couldn't delete` )
+           let user = await userServices.deleteUser( req.params.id)
             res.status(200).json({user})
         } catch (error) {
             res.status(400).json({ error })
         }
     },
-    async createUser(req, res) {
+    async registerUser(req, res) {
         try {
-            let user = await userModel.create( req.body )
-            if(!user) throw new Error( `User couldn't be created` )
+            let user = await userServices.registerUser( req.body )
             res.status(201).json({user})
         } catch (error) {
             res.status(400).json({ error })
+        }
+    },
+    async logInUser( req, res ){
+        try {
+            let user = await userModel.findOne( { email:req.body.email } )
+            if(!user) throw new Error(`Email isn't registed`)
+            user.logged = true
+            res.status()
+            res.status(200).json( {message: 'Log in successful', user} )
+        } catch (error) {
+            res.status(400).json({error})
+        }
+    },
+    async LogOutUser(req, res){
+        try {
+            let user = await userModel.findOne( { email:req.body.email } )
+            user.logged = false
+            res.status(200).json( 'Log out successful' )
+        } catch (error) {
+            res.status(400).json({error})
         }
     }
 }
