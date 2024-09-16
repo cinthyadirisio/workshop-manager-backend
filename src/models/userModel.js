@@ -8,8 +8,7 @@ const userSchema = new Schema({
     password: { type: String, required: true },
     role: { type: String, enum: ['admin', 'user', 'instructor'], default: 'user' },
     logged: { type:Boolean, default:false },
-    google: {type:Boolean, default:false},
-    workshops: [{type:Schema.Types.ObjectId, ref: 'User'}]
+    google: {type:Boolean, default:false}
 })
 
 const userModel = model('User', userSchema)
