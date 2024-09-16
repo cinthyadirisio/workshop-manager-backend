@@ -4,7 +4,7 @@ import workshopsController from '../controllers/workshopController.js'
 const workshopsRouter = express.Router()
 
 workshopsRouter.get( '/', workshopsController.getAll )
-workshopsRouter.get( '/', workshopsController.getOneByName )
+workshopsRouter.get( '/', workshopsController.getOneByTitle )
 workshopsRouter.get( '/:id', workshopsController.getOneById )
 workshopsRouter.post( '/', workshopsController.createOne )
 workshopsRouter.delete( '/:id', workshopsController.deleteOne )

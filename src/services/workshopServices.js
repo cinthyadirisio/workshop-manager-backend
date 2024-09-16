@@ -9,7 +9,7 @@ const workshopServices = {
             let workshop = await workshopModel.findById(id)
             return workshop
     },
-    async findByName(title) {
+    async findByTitle(title) {
             let workshop = await workshopModel.findOne(title)
             return workshop
     },
@@ -21,8 +21,8 @@ const workshopServices = {
             let workshop = await workshopModel.findByIdAndDelete( id )
             return workshop
     },
-    async updateOne(  id, data, newTrue ){
-            let workshop = await workshopModel.findByIdAndUpdate( {_id:id}, data, newTrue )
+    async updateOne(  id, data ){
+            let workshop = await workshopModel.findByIdAndUpdate( {_id:id}, data, {new: true} )
             return workshop
     }
 

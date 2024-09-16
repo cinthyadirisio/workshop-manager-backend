@@ -1,76 +1,61 @@
-import userModel from "../models/userModel.js"
 import userServices from "../services/authServices.js"
+import errorCatcher from '../utils/errorCatcher.js'
+import CustomError from '../utils/errorCustomizer.js'
 
 const userController = {
     async getAllUsers(req, res) {
-        try {
-            let allUsers = await userServices.getAllUsers()
-            res.status(200).json({ allUsers })
-        } catch (error) {
-            res.status(400).json({ error })
-        }
+        let allUsers = await userServices.getAllUsers()
+        res.status(200).json({ allUsers })
     },
     async getOneUserByID(req, res) {
-        try {
-            let user = await userServices.getOneUserByID(req.params.id)
-            if (!user) throw new Error(`The provided ID doesn't match any registered IDs`)
-            res.status(200).json({ user })
-        } catch (error) {
-            res.status(400).json({ error })
-        }
+        let user = await userServices.getOneUserByID(req.params.id)
+        if (!user) throw new CustomError(`The provided ID doesn't match any registered IDs`, 404)
+        res.status(200).json({ user })
     },
     async updateUser(req, res) {
-        try {
-            let updatedUser = await userServices.updateUser({ _id: req.params.id }, req.body)
-            if (!updatedUser) throw new Error(`The provided ID doesn't match any registered users, couldn't update`)
-            res.status(200).json({ updatedUser })
-        } catch (error) {
-            res.status(400).json({ error })
-        }
+        let updatedUser = await userServices.updateUser({ _id: req.params.id }, req.body)
+        if (!updatedUser) throw new CustomError(`The provided ID doesn't match any registered users, couldn't update`, 404)
+        res.status(200).json({ updatedUser })
     },
     async deleteUser(req, res) {
-        try {
-            let user = await userServices.deleteUser(req.params.id)
-            if (!user) throw new Error(`The provided ID doesn't match any registered IDs, couldn't delete`)
-            res.status(200).json({ user })
-        } catch (error) {
-            res.status(400).json({ error })
-        }
+        let user = await userServices.deleteUser(req.params.id)
+        if (!user) throw new CustomError(`The provided ID doesn't match any registered IDs, couldn't delete`, 404)
+        res.status(200).json({ user })
     },
     async registerUser(req, res) {
-        try {
-            let data = req.body
-            const emailExists = await userServices.checkEmail(data.email)
-            if (emailExists) throw new Error('Email is already registered')
-            let hashedPassword = await userServices.hashPassword(data.password)
-            data.password = hashedPassword
-            let user = await userServices.registerUser(data)
-            console.log(user)
-            res.status(201).json({
-                error: false,
-                data: { user },
-                message: 'Succesfully created'
-            })
-        } catch (error) {
-            res.status(400).json({ error })
-        }
+        let data = req.body
+        const emailExists = await userServices.checkEmail(data.email)
+        if (emailExists) throw new CustomError('Email is already registered', 400)
+        let hashedPassword = await userServices.hashPassword(data.password)
+        data.password = hashedPassword
+        let user = await userServices.registerUser(data)
+        console.log(user)
+        res.status(201).json({
+            error: false,
+            data: { user },
+            message: 'Succesfully created'
+        })
     },
     async logInUser(req, res) {
-        try {
-            let { email, password } = req.body
+        let { email, password } = req.body
 
-            let user = await userServices.checkEmail(email)
-            if (!user) throw new Error(`Email isn't registed`)
+        let user = await userServices.checkEmail(email)
+        if (!user) throw new CustomError(`Invalid email/password`, 401)
 
-            let isMatch = await userServices.comparePassword(password, user.password)
-            if (!isMatch) throw new Error('Invalid Password')
-                
-            await userServices.login(user)
-            res.status(200).json({ message: 'Log in successful', user })
-        } catch (error) {
-            res.status(400).json({ error })
-        }
+        let isMatch = await userServices.comparePassword(password, user.password)
+        if (!isMatch) throw new CustomError('Invalid email/password', 401)
+
+        await userServices.login(user)
+        res.status(200).json({ message: 'Log in successful', user })
     }
 }
 
-export default userController
+export default {
+    getAllUsers: errorCatcher(userController.getAllUsers),
+    getOneUserByID: errorCatcher(userController.getOneUserByID),
+    updateUser: errorCatcher(userController.updateUser),
+    deleteUser: errorCatcher(userController.deleteUser),
+    registerUser: errorCatcher(userController.registerUser),
+    logInUser: errorCatcher(userController.logInUser)
+
+}

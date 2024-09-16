@@ -1,61 +1,46 @@
 import workshopServices from '../services/workshopServices.js'
+import errorCatcher from '../utils/errorCatcher.js'
+import CustomError from '../utils/errorCustomizer.js'
 
 const workshopsController = {
-    async getAll( req, res ){
-        try {
-            let allWorkshops = await workshopServices.getAll()
-            res.status(200).json( { allWorkshops } )
-        } catch (error) {
-            console.log( error )
-            res.status(400).json({ error })
-        }
+    async getAll(req, res) {
+        let allWorkshops = await workshopServices.getAll()
+        res.status(200).json({ allWorkshops })
     },
-    async getOneById( req, res ){
-        try {
-            let workshop = await workshopServices.getOneById( req.params.id )
-            if (!workshop) throw new Error(`The provided ID doesn't match any registered IDs`)
-            res.status(200).json( { workshop } )
-        } catch (error) {
-            console.log(error)
-            res.status(400).json( {error} )
-        }
+    async getOneById(req, res) {
+        let workshop = await workshopServices.getOneById(req.params.id)
+        if (!workshop) throw new CustomError(`The provided ID doesn't match any registered IDs`, 404)
+        res.status(200).json({ workshop })
     },
-    async getOneByName( req, res ){
-        try {
-            let workshop = await workshopServices.findByName( { title: req.body.title } )
-            if (!workshop) throw new Error('No workshops found with the provided title')
-            res.status(200).json( { workshop } )
-        } catch (error) {
-            res.status(400).json({error})
-        }
-        },
-    async createOne(req, res){
-        try {
-            let newWorkshop = await workshopServices.createOne( req.body )
-            if (!newWorkshop) throw new Error(`The workshop couldn't be created`)
-            res.status(201).json({newWorkshop})
-        } catch (error) {
-            res.status(400).json({error})
-        }
+    async getOneByTitle(req, res) {
+        let workshop = await workshopServices.findByTitle({ title: req.body.title })
+        if (!workshop) throw new new CustomError(`No workshops found with the provided title`, 404)
+        res.status(200).json({ workshop })
     },
-    async deleteOne( req, res ){
-        try {
-            let workshop = await workshopServices.createOne( req.params.id )
-            if(!workshop) throw new Error( `The provided ID doesn't match any registered IDs, couldn't delete` )
-            res.status(200).json({workshop})
-        } catch (error) {
-            res.status(400).json({error})
-        }
+    async createOne(req, res) {
+        let workshopAlreadyRegistered = await workshopServices.findByTitle(req.body.title)
+        if (workshopAlreadyRegistered) throw new CustomError('Title corresponds to another workshop', 400)
+        let newWorkshop = await workshopServices.createOne(req.body)
+        if (!newWorkshop) throw new CustomError(`The workshop couldn't be created`, 400)
+        res.status(201).json({ newWorkshop })
     },
-    async updateOne( req, res ){
-        try {
-            let workshop = await workshopServices.updateOne({_id: req.params.id}, req.body, {new:true})
-            if(!workshop) throw new Error( `The provided ID doesn't match any registered workshop IDs, couldn't update` )
-            res.status(200).json({workshop})
-        } catch (error) {
-            res.status(400).json({error})
-        }
+    async deleteOne(req, res) {
+        let workshop = await workshopServices.createOne(req.params.id)
+        if (!workshop) throw new CustomError(`The provided ID doesn't match any registered IDs, couldn't delete`, 404)
+        res.status(200).json({ workshop })
+    },
+    async updateOne(req, res) {
+        let workshop = await workshopServices.updateOne({ _id: req.params.id }, req.body)
+        if (!workshop) throw new CustomError(`The provided ID doesn't match any registered workshop IDs, couldn't update`, 404)
+        res.status(200).json({ workshop })
     }
 }
 
-export default workshopsController
+export default {
+    getAll: errorCatcher(workshopsController.getAll),
+    getOneById: errorCatcher(workshopsController.getOneById),
+    getOneByTitle: errorCatcher(workshopsController.getOneByTitle),
+    createOne: errorCatcher(workshopsController.createOne),
+    deleteOne: errorCatcher(workshopsController.deleteOne),
+    updateOne: errorCatcher(workshopsController.updateOne)
+}
