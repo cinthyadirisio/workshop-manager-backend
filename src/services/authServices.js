@@ -7,16 +7,16 @@ const userServices = {
         return allUsers
     },
     async getOneUserByID(id) {
-        let user = await userModel.findById({ id })
+        let user = await userModel.findById({ _id:id })
         return user
     },
     async updateUser(id, data) {
-        let updatedUser = await userModel.findByIdAndUpdate({ id }, data, { new: true })
+        let updatedUser = await userModel.findByIdAndUpdate(id, data, { new: true })
         return updatedUser
 
     },
-    async deleteUser() {
-        let user = await userModel.findByIdAndDelete({ id })
+    async deleteUser(id) {
+        let user = await userModel.findByIdAndDelete({_id:id})
         return user
     },
     async checkEmail(email) {

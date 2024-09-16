@@ -1,5 +1,5 @@
 function responseCustomizer( res, statusCode, data, message = null ){
-    res.statusCode(statusCode).json({
+    res.status(statusCode).json({
         error: false,
         response: data,
         message

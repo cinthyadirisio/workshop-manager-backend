@@ -6,15 +6,15 @@ const subjectServices = {
         return allSubjects
     },
     async getOneById(id) {
-        let subject = await subjectModel.findById(id)
+        let subject = await subjectModel.findById({_id:id})
         return subject
     },
     async createOne(data) {
-        let newSubject = await subjectModel.create({ data })
+        let newSubject = await subjectModel.create( data )
         return newSubject
     },
     async deleteOne(id) {
-        let subject = await subjectModel.findByIdAndDelete(id)
+        let subject = await subjectModel.findByIdAndDelete({_id:id})
         return subject
     },
     async updateOne(id, data) {

@@ -6,19 +6,19 @@ const workshopServices = {
             return allWorkshops
     },
     async getOneById(id) {
-            let workshop = await workshopModel.findById(id)
+            let workshop = await workshopModel.findById({_id:id})
             return workshop
     },
     async findByTitle(title) {
-            let workshop = await workshopModel.findOne(title)
+            let workshop = await workshopModel.findOne({title})
             return workshop
     },
     async createOne(data) {
-            let newWorkshop = await workshopModel.create({data})
+            let newWorkshop = await workshopModel.create(data)
             return newWorkshop
     },
     async deleteOne( id ){
-            let workshop = await workshopModel.findByIdAndDelete( id )
+            let workshop = await workshopModel.findByIdAndDelete({_id:id})
             return workshop
     },
     async updateOne(  id, data ){

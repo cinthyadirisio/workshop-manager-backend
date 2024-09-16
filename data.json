@@ -1,0 +1,157 @@
+[
+    {
+        "title": "Desarrollo Front-End Avanzado",
+        "description": "Aprende técnicas avanzadas de desarrollo front-end con HTML5, CSS3 y JavaScript.",
+        "startDate": "2024-10-01T00:00:00.000Z",
+        "endDate": "2024-10-15T00:00:00.000Z",
+        "duration": 30,
+        "schedule": "Lunes a Viernes, 10:00 - 12:00",
+        "subjects": [
+            {
+                "name": "HTML5 Avanzado",
+                "description": "Etiquetas y APIs avanzadas de HTML5."
+            },
+            {
+                "name": "CSS3 Avanzado",
+                "description": "Animaciones, Flexbox y Grid Layout."
+            },
+            {
+                "name": "JavaScript Avanzado",
+                "description": "ES6+, Promesas y Async/Await."
+            },
+            {
+                "name": "React.js",
+                "description": "Componentes, Hooks y Estado."
+            }
+        ]
+    },
+    {
+        "title": "Desarrollo Back-End con Node.js",
+        "description": "Domina el desarrollo back-end utilizando Node.js y Express.js.",
+        "startDate": "2024-11-01T00:00:00.000Z",
+        "endDate": "2024-11-15T00:00:00.000Z",
+        "duration": 30,
+        "schedule": "Lunes a Viernes, 14:00 - 16:00",
+        "subjects": [
+            {
+                "name": "Introducción a Node.js",
+                "description": "Fundamentos y configuración de Node.js."
+            },
+            {
+                "name": "Express.js",
+                "description": "Creación de servidores y APIs RESTful."
+            },
+            {
+                "name": "Bases de Datos con MongoDB",
+                "description": "Modelado de datos y consultas."
+            },
+            {
+                "name": "Autenticación y Seguridad",
+                "description": "JWT, OAuth y medidas de seguridad."
+            }
+        ]
+    },
+    {
+        "title": "Desarrollo Full Stack con MERN",
+        "description": "Aprende a desarrollar aplicaciones completas con MongoDB, Express.js, React.js y Node.js.",
+        "startDate": "2024-12-01T00:00:00.000Z",
+        "endDate": "2024-12-15T00:00:00.000Z",
+        "duration": 30,
+        "schedule": "Lunes a Viernes, 10:00 - 12:00",
+        "subjects": [
+            {
+                "name": "MongoDB",
+                "description": "Modelado de datos y consultas avanzadas."
+            },
+            {
+                "name": "Express.js",
+                "description": "Creación de APIs RESTful."
+            },
+            {
+                "name": "React.js",
+                "description": "Componentes, Hooks y Estado."
+            },
+            {
+                "name": "Node.js",
+                "description": "Fundamentos y configuración."
+            }
+        ]
+    },
+    {
+        "title": "Diseño de Interfaces de Usuario",
+        "description": "Aprende a diseñar interfaces de usuario atractivas y funcionales.",
+        "startDate": "2024-10-20T00:00:00.000Z",
+        "endDate": "2024-11-05T00:00:00.000Z",
+        "duration": 30,
+        "schedule": "Lunes a Viernes, 16:00 - 18:00",
+        "subjects": [
+            {
+                "name": "Principios de Diseño",
+                "description": "Fundamentos y mejores prácticas."
+            },
+            {
+                "name": "Herramientas de Diseño",
+                "description": "Uso de Figma y Adobe XD."
+            },
+            {
+                "name": "Prototipado",
+                "description": "Creación de prototipos interactivos."
+            },
+            {
+                "name": "Pruebas de Usabilidad",
+                "description": "Métodos y técnicas de pruebas."
+            }
+        ]
+    },
+    {
+        "title": "Desarrollo de Aplicaciones Móviles",
+        "description": "Domina el desarrollo de aplicaciones móviles con Flutter y React Native.",
+        "startDate": "2024-11-10T00:00:00.000Z",
+        "endDate": "2024-11-25T00:00:00.000Z",
+        "duration": 30,
+        "schedule": "Lunes a Viernes, 10:00 - 12:00",
+        "subjects": [
+            {
+                "name": "Introducción a Flutter",
+                "description": "Fundamentos y configuración."
+            },
+            {
+                "name": "React Native",
+                "description": "Componentes y navegación."
+            },
+            {
+                "name": "Integración con APIs",
+                "description": "Consumo de APIs RESTful."
+            },
+            {
+                "name": "Despliegue en Tiendas",
+                "description": "Publicación en App Store y Google Play."
+            }
+        ]
+    },
+    {
+        "title": "Ciberseguridad para Desarrolladores",
+        "description": "Aprende las mejores prácticas de seguridad en el desarrollo de software.",
+        "startDate": "2024-12-01T00:00:00.000Z",
+        "endDate": "2024-12-15T00:00:00.000Z",
+        "duration": 30,
+        "schedule": "Lunes a Viernes, 14:00 - 16:00",
+        "subjects": [
+            {
+                "name": "Fundamentos de Ciberseguridad",
+                "description": "Conceptos básicos y terminología."
+            },
+            {
+                "name": "Seguridad en Aplicaciones Web",
+                "description": "OWASP y medidas de protección."
+            },
+            {
+                "name": "Criptografía",
+                "description": "Algoritmos y técnicas de cifrado."
+            },
+            {
+                "name": "Pruebas de Penetración",
+                "description": "Métodos y herramientas."
+            }
+        ]
+    }]

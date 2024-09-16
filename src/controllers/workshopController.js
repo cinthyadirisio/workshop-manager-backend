@@ -6,17 +6,12 @@ import responseCustomizer from '../utils/responseCustomizer.js'
 const workshopsController = {
     async getAll(req, res) {
         let allWorkshops = await workshopServices.getAll()
-        responseCustomizer(res, 200, workshop, 'Workshop retrieved successfully')
+        responseCustomizer(res, 200, allWorkshops, 'Workshop retrieved successfully')
     },
     async getOneById(req, res) {
         let workshop = await workshopServices.getOneById(req.params.id)
         if (!workshop) throw new CustomError(`The provided ID doesn't match any registered IDs`, 404)
         responseCustomizer(res, 200, workshop)
-    },
-    async getOneByTitle(req, res) {
-        let workshop = await workshopServices.findByTitle({ title: req.body.title })
-        if (!workshop) throw new new CustomError(`No workshops found with the provided title`, 404)
-        responseCustomizer(res, 200, workshop, 'Workshop retrieved successfully')
     },
     async createOne(req, res) {
         let workshopAlreadyRegistered = await workshopServices.findByTitle(req.body.title)
@@ -31,17 +26,26 @@ const workshopsController = {
         responseCustomizer(res, 200, workshop, 'Workshop deleted successfully')
     },
     async updateOne(req, res) {
-        let workshop = await workshopServices.updateOne({ _id: req.params.id }, req.body)
+        let workshop = await workshopServices.updateOne(req.params.id , req.body)
         if (!workshop) throw new CustomError(`The provided ID doesn't match any registered workshop IDs, couldn't update`, 404)
         responseCustomizer(res, 200, workshop, 'Workshop updated successfully')
+    },
+    async registerAsParticipant( req, res ){
+        const workshopId = req.params.id
+        const user = req.body.user
+        const workshop = await workshopServices.getOneById(workshopId)
+        if (!workshop) throw new CustomError(`The provided ID doesn't match any registered workshop IDs, couldn't update`, 404)
+        workshop.participants.push(user)
+        await workshop.save()
+        responseCustomizer(res, 201, workshop, `User has successfully enlisted on ${workshop.title}`)
     }
 }
 
 export default {
     getAll: errorCatcher(workshopsController.getAll),
     getOneById: errorCatcher(workshopsController.getOneById),
-    getOneByTitle: errorCatcher(workshopsController.getOneByTitle),
     createOne: errorCatcher(workshopsController.createOne),
     deleteOne: errorCatcher(workshopsController.deleteOne),
-    updateOne: errorCatcher(workshopsController.updateOne)
+    updateOne: errorCatcher(workshopsController.updateOne),
+    registerAsParticipant: errorCatcher(workshopsController.registerAsParticipant)
 }

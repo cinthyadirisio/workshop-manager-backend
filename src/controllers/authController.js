@@ -12,17 +12,20 @@ const userController = {
     async getOneUserByID(req, res) {
         let user = await userServices.getOneUserByID(req.params.id)
         if (!user) throw new CustomError(`The provided ID doesn't match any registered IDs`, 404)
-            responseCustomizer(res, 200, user, 'User retrieved successfully')
+        const userRes = userDTO(user)
+        responseCustomizer(res, 200, userRes, 'User retrieved successfully')
     },
     async updateUser(req, res) {
         let updatedUser = await userServices.updateUser({ _id: req.params.id }, req.body)
         if (!updatedUser) throw new CustomError(`The provided ID doesn't match any registered users, couldn't update`, 404)
-            responseCustomizer(res, 200, updatedUser, 'User updated successfully')
+        const userRes = userDTO(updatedUser)
+        responseCustomizer(res, 200, userRes, 'User updated successfully')
     },
     async deleteUser(req, res) {
         let user = await userServices.deleteUser(req.params.id)
         if (!user) throw new CustomError(`The provided ID doesn't match any registered IDs, couldn't delete`, 404)
-            responseCustomizer(res, 200, user, 'User deleted successfully')
+        const userRes = userDTO(user)
+        responseCustomizer(res, 200, userRes, 'User deleted successfully')
     },
     async registerUser(req, res) {
         let data = req.body

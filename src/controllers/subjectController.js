@@ -1,11 +1,12 @@
 import subjectServices from "../services/subjectServices.js"
 import errorCatcher from '../utils/errorCatcher.js'
 import CustomError from '../utils/errorCustomizer.js'
+import responseCustomizer from "../utils/responseCustomizer.js"
 
 const subjectController = {
     async getAllSubjects(req, res) {
         let allSubjects = await subjectServices.getAllSubjects()
-        responseCustomizer(res, 200, allSubjects, allSubjects, 'All subjects retrieved successfully')
+        responseCustomizer(res, 200, allSubjects, 'All subjects retrieved successfully')
     },
     async getOneById(req, res) {
         let subject = await subjectServices.getOneById(req.params.id)
@@ -15,7 +16,7 @@ const subjectController = {
     async createOne(req, res) {
         let newSubject = await subjectServices.createOne(req.body)
         if (!newSubject) throw new CustomError(`The subject couldn't be created`, 400)
-        responseCustomizer(res, 201, subject, 'Subject created successfully')
+        responseCustomizer(res, 201, newSubject, 'Subject created successfully')
 
     },
     async deleteOne(req, res) {
