@@ -13,6 +13,7 @@ const workshopsController = {
     async getOneById( req, res ){
         try {
             let workshop = await workshopServices.getOneById( req.params.id )
+            if (!workshop) throw new Error(`The provided ID doesn't match any registered IDs`)
             res.status(200).json( { workshop } )
         } catch (error) {
             console.log(error)
@@ -21,7 +22,8 @@ const workshopsController = {
     },
     async getOneByName( req, res ){
         try {
-            let workshop = await workshopServices.getOneByName( { title: req.body.title } )
+            let workshop = await workshopServices.findByName( { title: req.body.title } )
+            if (!workshop) throw new Error('No workshops found with the provided title')
             res.status(200).json( { workshop } )
         } catch (error) {
             res.status(400).json({error})
@@ -30,6 +32,7 @@ const workshopsController = {
     async createOne(req, res){
         try {
             let newWorkshop = await workshopServices.createOne( req.body )
+            if (!newWorkshop) throw new Error(`The workshop couldn't be created`)
             res.status(201).json({newWorkshop})
         } catch (error) {
             res.status(400).json({error})
@@ -38,6 +41,7 @@ const workshopsController = {
     async deleteOne( req, res ){
         try {
             let workshop = await workshopServices.createOne( req.params.id )
+            if(!workshop) throw new Error( `The provided ID doesn't match any registered IDs, couldn't delete` )
             res.status(200).json({workshop})
         } catch (error) {
             res.status(400).json({error})
@@ -46,6 +50,7 @@ const workshopsController = {
     async updateOne( req, res ){
         try {
             let workshop = await workshopServices.updateOne({_id: req.params.id}, req.body, {new:true})
+            if(!workshop) throw new Error( `The provided ID doesn't match any registered workshop IDs, couldn't update` )
             res.status(200).json({workshop})
         } catch (error) {
             res.status(400).json({error})
