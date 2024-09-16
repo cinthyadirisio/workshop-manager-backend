@@ -6,10 +6,10 @@ const userSchema = new Schema({
     photo: String,
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    DNI:{ type: Number, required: true, unique:true},
     workshops: [{ type: Schema.Types.ObjectId, ref: 'Workshop' }],
     role: { type: String, enum: ['admin', 'user', 'instructor'], default: 'user' },
-    logged: { type:Boolean, required: true, default:false }
+    logged: { type:Boolean, default:false },
+    google: {type:Boolean, default:false}
 })
 
 const userModel = model('User', userSchema)
