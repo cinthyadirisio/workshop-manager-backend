@@ -1,5 +1,6 @@
 import userModel from '../models/userModel.js'
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 
 const userServices = {
     async getAllUsers() {
@@ -19,7 +20,7 @@ const userServices = {
         let user = await userModel.findByIdAndDelete({_id:id})
         return user
     },
-    async checkEmail(email) {
+    async findByEmail(email) {
         return await userModel.findOne({ email })
     },
     async hashPassword(password) {
@@ -37,6 +38,11 @@ const userServices = {
     async login(user) {
         user.logged = true
         user.save()
+    },
+    async signToken( user, secretKey, duration ){
+        const payload = { id: user._id, role: user.role }
+        const token = jwt.sign( payload, secretKey, { expiresIn: duration } )
+        return token
     }
 }
 

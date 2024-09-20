@@ -3,6 +3,8 @@ import errorCatcher from '../utils/errorCatcher.js'
 import CustomError from '../utils/errorCustomizer.js'
 import responseCustomizer from '../utils/responseCustomizer.js'
 import userDTO from '../userDTO/userDTO.js'
+import dotenv from 'dotenv'
+dotenv.config()
 
 const userController = {
     async getAllUsers(req, res) {
@@ -29,25 +31,29 @@ const userController = {
     },
     async registerUser(req, res) {
         let data = req.body
-        const emailExists = await userServices.checkEmail(data.email)
+        const emailExists = await userServices.findByEmail(data.email)
         if (emailExists) throw new CustomError('Email is already registered', 400)
         let hashedPassword = await userServices.hashPassword(data.password)
         data.password = hashedPassword
         let user = await userServices.registerUser(data)
-        const userRes = userDTO(user)
+        let token = await userServices.signToken( user, process.env.SECRET_KEY, "5h" )
+        const userRes = userDTO(user, token)
         responseCustomizer(res, 201, userRes, 'User registered successfully')
     },
     async logInUser(req, res) {
         let { email, password } = req.body
 
-        let user = await userServices.checkEmail(email)
+        let user = await userServices.findByEmail(email)
         if (!user) throw new CustomError(`Invalid email/password`, 401)
 
         let isMatch = await userServices.comparePassword(password, user.password)
         if (!isMatch) throw new CustomError('Invalid email/password', 401)
 
         await userServices.login(user)
-        const userRes = userDTO(user)
+
+        let token = await userServices.signToken( user, process.env.SECRET_KEY, "5h" )
+        const userRes = userDTO(user, token)
+
         responseCustomizer(res, 200, userRes, 'Log in successful')
     }
 }
