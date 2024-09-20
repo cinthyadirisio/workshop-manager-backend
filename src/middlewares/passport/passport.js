@@ -7,7 +7,7 @@ import userServices from "../../services/authServices.js";
 
 const options = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretKey: process.env.SECRET_KEY
+    secretOrKey: process.env.SECRET_KEY
 }
 
 const authenticate = async ( payload, done ) => {
@@ -20,4 +20,4 @@ const authenticate = async ( payload, done ) => {
     }
 }
 
-export default passport.use(new Strategy( options, fn ))
+export default passport.use(new Strategy( options, authenticate ))

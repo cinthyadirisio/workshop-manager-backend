@@ -8,6 +8,7 @@ const registerSchema = Joi.object({
     photo: Joi.string().uri().optional(),
     email: Joi.string().email().required(),
     password: Joi.string().min(4).required(),
+    confirmPassword: Joi.string().valid(Joi.ref('password')).required(),
     role: Joi.string().valid('admin', 'user', 'instructor').default('user'),
     logged: Joi.boolean().default(false),
     google: Joi.boolean().default(false)

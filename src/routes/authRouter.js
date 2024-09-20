@@ -3,6 +3,7 @@ import userController from '../controllers/authController.js'
 import registerSchema from '../validation/schemas/registerSchema.js'
 import loginSchema from '../validation/schemas/loginSchema.js'
 import schemaValidator from '../validation/schemaValidator.js'
+import passport from '../middlewares/passport/passport.js'
 
 const authRouter = express.Router()
 
@@ -11,7 +12,8 @@ authRouter.get( '/', userController.getAllUsers )
 authRouter.get( '/:id', userController.getOneUserByID )
 authRouter.post( '/register', schemaValidator(registerSchema) , userController.registerUser )
 authRouter.delete( '/:id', userController.deleteUser )
-authRouter.put( '/:id' , userController.updateUser )
-authRouter.post( '/login', schemaValidator(loginSchema) , userController.logInUser )
+authRouter.put( '/:id' , passport.authenticate('jwt', { session: false }), userController.updateUser )
+authRouter.post( '/login', schemaValidator(loginSchema) , userController.logInUser ),
+authRouter.put( '/:id/password', passport.authenticate('jwt', { session: false }), userController.updateUser)
 
 export default authRouter
