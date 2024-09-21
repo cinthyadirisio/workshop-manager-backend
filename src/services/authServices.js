@@ -1,6 +1,7 @@
 import userModel from '../models/userModel.js'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import CustomError from '../utils/errorCustomizer.js'
 
 const userServices = {
     async getAllUsers() {
@@ -12,6 +13,7 @@ const userServices = {
         return user
     },
     async updateUser(id, data) {
+        if(data.role) throw new CustomError('You are not authorized to change your own role', 401)
         let updatedUser = await userModel.findByIdAndUpdate(id, data, { new: true })
         return updatedUser
 

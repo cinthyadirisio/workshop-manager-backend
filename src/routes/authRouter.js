@@ -14,6 +14,6 @@ authRouter.post( '/register', schemaValidator(registerSchema) , userController.r
 authRouter.delete( '/:id', userController.deleteUser )
 authRouter.put( '/:id' , passport.authenticate('jwt', { session: false }), userController.updateUser )
 authRouter.post( '/login', schemaValidator(loginSchema) , userController.logInUser ),
-authRouter.put( '/:id/password', passport.authenticate('jwt', { session: false }), userController.updateUser)
+authRouter.put( '/password/:id', passport.authenticate('jwt', { session: false }), userController.updateUser)
 
 export default authRouter

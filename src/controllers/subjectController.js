@@ -26,7 +26,7 @@ const subjectController = {
 
     },
     async updateOne(req, res) {
-        let subject = await subjectServices.updateOne(req.params.id, req.body,)
+        let subject = await subjectServices.updateOne(req.params.id, req.body)
         if (!subject) throw new CustomError(`The provided ID doesn't match any registered subject IDs, couldn't update`, 404)
         responseCustomizer(res, 200, subject, 'Subject updated successfully')
     },
