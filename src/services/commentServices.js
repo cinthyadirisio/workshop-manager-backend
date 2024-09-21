@@ -15,6 +15,10 @@ const commentServices = {
     },
     async updateComment(id, data){
         return await commentModel.findByIdAndUpdate({_id:id}, data, {new:true})
+    },
+    async checkWorkshopDate( workshopId ){
+        let isPast = workshopId.isPast
+        return isPast
     }
 }
 

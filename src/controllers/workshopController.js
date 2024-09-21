@@ -31,10 +31,15 @@ const workshopsController = {
         responseCustomizer(res, 200, workshop, 'Workshop updated successfully')
     },
     async registerAsParticipant( req, res ){
+        const userId = req.body.userId
         const workshopId = req.params.id
-        const user = req.body.user
+
         const workshop = await workshopServices.getOneById(workshopId)
         if (!workshop) throw new CustomError(`The provided ID doesn't match any registered workshop IDs, couldn't update`, 404)
+
+        const isParticipant = workshop.participants.includes(userId)
+        if (isParticipant) throw new CustomError( 'You are already enlisted in this workshop', 400 )
+        
         workshop.participants.push(user)
         await workshop.save()
         responseCustomizer(res, 201, workshop, `User has successfully enlisted on ${workshop.title}`)

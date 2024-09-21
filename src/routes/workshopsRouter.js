@@ -10,7 +10,7 @@ workshopsRouter.get( '/:id', workshopsController.getOneById )
 workshopsRouter.post( '/', schemaValidator(workshopSchema) , workshopsController.createOne )
 workshopsRouter.delete( '/:id', workshopsController.deleteOne )
 workshopsRouter.put( '/:id', schemaValidator(workshopSchema) , workshopsController.updateOne )
-workshopsRouter.post( '/:id', schemaValidator(workshopSchema) , workshopsController.registerAsParticipant )
+workshopsRouter.post( '/:id' , workshopsController.registerAsParticipant )
 
 
 
