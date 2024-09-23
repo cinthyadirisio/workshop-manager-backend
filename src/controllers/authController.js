@@ -55,6 +55,13 @@ const userController = {
         const userRes = userDTO(user, token)
 
         responseCustomizer(res, 200, userRes, 'Log in successful')
+    },
+    async deactivateUser(req, res){
+        const id = req.body.id
+        const user = await userServices.getOneUserByID(id)
+        if (!user) throw new CustomError(`The provided ID doesn't match any registered IDs`, 404)
+        await userServices.deactivateUser(user)
+        responseCustomizer(res, 200, null, `User ${user.firstName} ${user.lastName} has been deactivated by admin`)
     }
 }
 
@@ -64,6 +71,7 @@ export default {
     updateUser: errorCatcher(userController.updateUser),
     deleteUser: errorCatcher(userController.deleteUser),
     registerUser: errorCatcher(userController.registerUser),
-    logInUser: errorCatcher(userController.logInUser)
+    logInUser: errorCatcher(userController.logInUser),
+    deactivateUser: errorCatcher(userController.deactivateUser)
 
 }

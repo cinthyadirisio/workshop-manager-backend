@@ -8,7 +8,7 @@ const userSchema = new Schema({
     password: { type: String, required: true },
     role: { type: String, enum: ['admin', 'user', 'instructor'], default: 'user' },
     logged: { type:Boolean, default:false },
-    google: {type:Boolean, default:false}
+    isActive: {type:Boolean, default:true}
 })
 
 const userModel = model('User', userSchema)

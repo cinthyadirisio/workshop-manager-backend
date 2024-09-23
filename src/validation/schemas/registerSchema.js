@@ -9,7 +9,7 @@ const registerSchema = Joi.object({
     confirmPassword: Joi.string().valid(Joi.ref('password')).required(),
     role: Joi.string().valid('admin', 'user', 'instructor').default('user'),
     logged: Joi.boolean().default(false),
-    google: Joi.boolean().default(false)
+    isActive: Joi.boolean().default(true)
 }).messages({
     'any.required': '{#label} is required.',
     'string.empty': `{#label} musn\'t be left empty.`,

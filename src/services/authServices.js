@@ -13,7 +13,7 @@ const userServices = {
         return user
     },
     async updateUser(id, data) {
-        if(data.role) throw new CustomError('You are not authorized to change your own role', 401)
+        if(data.role || data.isActive) throw new CustomError('You are not authorized to change your own role or deactivate your account', 401)
         let updatedUser = await userModel.findByIdAndUpdate(id, data, { new: true })
         return updatedUser
 
@@ -45,6 +45,11 @@ const userServices = {
         const payload = { id: user._id, role: user.role }
         const token = jwt.sign( payload, secretKey, { expiresIn: duration } )
         return token
+    },
+    async deactivateUser( user ){
+        user.isActive = false
+        await user.save()
+        return user
     }
 }
 
