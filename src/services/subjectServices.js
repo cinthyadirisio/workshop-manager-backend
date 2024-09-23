@@ -6,7 +6,7 @@ const subjectServices = {
         return allSubjects
     },
     async getOneById(id) {
-        let subject = await subjectModel.findById({_id:id})
+        let subject = await subjectModel.findById(id)
         return subject
     },
     async createOne(data) {

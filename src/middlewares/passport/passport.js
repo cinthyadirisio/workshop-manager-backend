@@ -12,7 +12,8 @@ const options = {
 
 const authenticate = async ( payload, done ) => {
     try {
-        const user = await userServices.findByEmail(payload.email)
+        console.log(payload)
+        const user = await userServices.getOneUserByID(payload.id)
         if (!user) return done(null, false)
         return done(null, user)
     } catch (error) {

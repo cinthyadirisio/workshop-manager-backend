@@ -1,3 +1,4 @@
+import userServices from '../services/authServices.js'
 import workshopServices from '../services/workshopServices.js'
 import errorCatcher from '../utils/errorCatcher.js'
 import CustomError from '../utils/errorCustomizer.js'

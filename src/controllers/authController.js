@@ -31,12 +31,16 @@ const userController = {
     },
     async registerUser(req, res) {
         let data = req.body
+
         const emailExists = await userServices.findByEmail(data.email)
         if (emailExists) throw new CustomError('Email is already registered', 400)
+
         let hashedPassword = await userServices.hashPassword(data.password)
         data.password = hashedPassword
         let user = await userServices.registerUser(data)
+
         let token = await userServices.signToken( user, process.env.SECRET_KEY, "5h" )
+        
         const userRes = userDTO(user, token)
         responseCustomizer(res, 201, userRes, 'User registered successfully')
     },

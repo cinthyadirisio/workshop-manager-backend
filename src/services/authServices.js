@@ -9,7 +9,7 @@ const userServices = {
         return allUsers
     },
     async getOneUserByID(id) {
-        let user = await userModel.findById({ _id:id })
+        let user = await userModel.findById(id)
         return user
     },
     async updateUser(id, data) {
@@ -42,7 +42,7 @@ const userServices = {
         user.save()
     },
     async signToken( user, secretKey, duration ){
-        const payload = { id: user._id, role: user.role }
+        const payload = { id: user._id, role: user.role, isActive: user.isActive }
         const token = jwt.sign( payload, secretKey, { expiresIn: duration } )
         return token
     },
@@ -50,6 +50,9 @@ const userServices = {
         user.isActive = false
         await user.save()
         return user
+    },
+    checkUserActive( user ){
+        return user.isActive 
     }
 }
 

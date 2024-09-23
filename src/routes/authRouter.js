@@ -13,9 +13,9 @@ authRouter.get( '/', userController.getAllUsers )
 authRouter.get( '/:id', userController.getOneUserByID )
 authRouter.post( '/register', schemaValidator(registerSchema) , userController.registerUser )
 authRouter.delete( '/:id', userController.deleteUser )
+authRouter.put( '/deactivate', passport.authenticate( 'jwt', {session:false} ), isAdmin, userController.deactivateUser )
 authRouter.put( '/:id' , passport.authenticate('jwt', { session: false }), userController.updateUser )
 authRouter.post( '/login', schemaValidator(loginSchema) , userController.logInUser )
 authRouter.put( '/password/:id', passport.authenticate('jwt', { session: false }), userController.updateUser)
-authRouter.post( '/deactivate', passport.authenticate( 'jwt', {session:false} ), isAdmin, userController.deactivateUser )
 
 export default authRouter

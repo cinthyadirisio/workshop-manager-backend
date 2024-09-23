@@ -6,7 +6,7 @@ const workshopServices = {
             return allWorkshops
     },
     async getOneById(id) {
-            let workshop = await workshopModel.findById({_id:id})
+            let workshop = await workshopModel.findById(id)
             return workshop
     },
     async findByTitle(title) {
