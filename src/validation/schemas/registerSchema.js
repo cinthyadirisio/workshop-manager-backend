@@ -1,7 +1,5 @@
 import Joi from "joi";
 
-const objectIDpattern = /^[0-9a-fA-F]{24}$/;
-
 const registerSchema = Joi.object({
     firstName: Joi.string().required(),
     lastName: Joi.string().required(),
