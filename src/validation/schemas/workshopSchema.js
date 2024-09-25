@@ -17,8 +17,7 @@ const workshopSchema = Joi.object({
     schedule: Joi.string().required(),
     representativePhoto: Joi.string().uri().optional(),
     instructorId: Joi.string().pattern(objectIDpattern).required(),
-    participants: Joi.array().items(Joi.string().pattern(objectIDpattern)).custom(custom),
-    subjects: Joi.array().items(Joi.string().pattern(objectIDpattern))
+    participants: Joi.array().items(Joi.string().pattern(objectIDpattern)).custom(custom)
 }).messages({
         'date.greater': `Workshop's ending date must be later than the start date.`,
         'any.required': '{#label} is required.',

@@ -10,7 +10,6 @@ const workshopSchema = new Schema({
     schedule: { type: String, required: true },
     instructorId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     participants: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-    subjects: [{ type: Schema.Types.ObjectId, ref: 'Subject' }],
     isPast: { type:Boolean }
 })
 
