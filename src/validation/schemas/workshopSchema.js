@@ -15,6 +15,7 @@ const workshopSchema = Joi.object({
     endDate: Joi.date().greater(Joi.ref('startDate')).required(),
     duration: Joi.number().required(),
     schedule: Joi.string().required(),
+    representativePhoto: Joi.string().uri().optional(),
     instructorId: Joi.string().pattern(objectIDpattern).required(),
     participants: Joi.array().items(Joi.string().pattern(objectIDpattern)).custom(custom),
     subjects: Joi.array().items(Joi.string().pattern(objectIDpattern))
@@ -23,7 +24,8 @@ const workshopSchema = Joi.object({
         'any.required': '{#label} is required.',
         'string.empty': `{#label} musn't be left empty.`,
         'string.pattern.base': '{#label} must contain a valid ID.',
-        'array.includes': `Every {#label} item must be a valid ID`
+        'array.includes': `Every {#label} item must be a valid ID`,
+        'string.uri': 'Photo must contain a valid URL.',
     })
 
 export default workshopSchema

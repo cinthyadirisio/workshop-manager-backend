@@ -6,6 +6,7 @@ const workshopSchema = new Schema({
     startDate: { type: Date, required: true },
     endDate: { type: Date, required: true },
     duration: { type: Number, required: true },
+    representativePhoto: {type: String, default: 'https://www.unicesumar.edu.br/blog/wp-content/uploads/2021/05/cursos-de-tecnologia.jpeg'},
     schedule: { type: String, required: true },
     instructorId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     participants: [{ type: Schema.Types.ObjectId, ref: 'User' }],
