@@ -7,7 +7,7 @@ const commentSchema = Joi.object({
     userId: Joi.string().pattern(objectIDpattern).required(),
     rating: Joi.number().min(1).max(5).required(),
     comment: Joi.string().required(),
-    date: Joi.date().required()
+    date: Joi.date()
 }).messages({
     'any.required': '{#label} is required.',
     'string.empty': `{#label} musn't be left empty.`,
