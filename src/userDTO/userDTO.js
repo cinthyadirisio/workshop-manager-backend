@@ -6,7 +6,8 @@ function userDTO(user, token) {
             "lastName": user.lastName,
             "photo": user.photo,
             "email": user.email,
-            "role": user.role
+            "role": user.role,
+            "_id": user._id
         },
         token: token
     }

@@ -6,7 +6,6 @@ const userRouter = express.Router()
 
 userRouter.get( '/', userController.getAllUsers )
 userRouter.get( '/:id', userController.getOneUserByID )
-userRouter.delete( '/:id', userController.deleteUser )
 userRouter.put( '/:id' , passport.authenticate('jwt', { session: false }), userController.updateUser )
 
 export default userRouter

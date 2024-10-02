@@ -41,7 +41,7 @@ const workshopsController = {
         const isParticipant = workshop.participants.includes(userId)
         if (isParticipant) throw new CustomError( 'You are already enlisted in this workshop', 400 )
         
-        workshop.participants.push(user)
+        workshop.participants.push(userId)
         await workshop.save()
         responseCustomizer(res, 201, workshop, `User has successfully enlisted on ${workshop.title}`)
     }

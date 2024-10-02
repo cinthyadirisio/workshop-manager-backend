@@ -18,10 +18,6 @@ const userServices = {
         return updatedUser
 
     },
-    async deleteUser(id) {
-        let user = await userModel.findByIdAndDelete({_id:id})
-        return user
-    },
     async findByEmail(email) {
         return await userModel.findOne({ email })
     },
@@ -52,9 +48,13 @@ const userServices = {
         await user.save()
         return user
     },
-    checkUserActive( user ){
+    async checkUserActive( user ){
         return user.isActive 
-    }
+    },
+    async changePassword( id, data ){
+        let updatedUser = await userModel.findByIdAndUpdate(id, data, { new: true })
+        return updatedUser
+    },
 }
 
 export default userServices

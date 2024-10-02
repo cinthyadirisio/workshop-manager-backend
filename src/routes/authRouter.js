@@ -11,6 +11,6 @@ const authRouter = express.Router()
 authRouter.post( '/register', schemaValidator(registerSchema) , userController.registerUser )
 authRouter.put( '/deactivate', passport.authenticate( 'jwt', {session:false} ), isAdmin, userController.deactivateUser )
 authRouter.post( '/login', schemaValidator(loginSchema) , userController.logInUser )
-authRouter.put( '/password/:id', passport.authenticate('jwt', { session: false }), userController.updateUser)
+authRouter.put( '/password/:id', passport.authenticate('jwt', { session: false }), userController.changePassword)
 
 export default authRouter

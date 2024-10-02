@@ -23,17 +23,11 @@ const userController = {
         const userRes = userDTO(updatedUser)
         responseCustomizer(res, 200, userRes, 'User updated successfully')
     },
-    async deleteUser(req, res) {
-        let user = await userServices.deleteUser(req.params.id)
-        if (!user) throw new CustomError(`The provided ID doesn't match any registered IDs, couldn't delete`, 404)
-        const userRes = userDTO(user)
-        responseCustomizer(res, 200, userRes, 'User deleted successfully')
-    },
     async registerUser(req, res) {
         let data = req.body
 
         const emailExists = await userServices.findByEmail(data.email)
-        if (emailExists) throw new CustomError('Email is already registered', 400)
+        if (emailExists) throw new CustomError('Email is already registered, please log in', 400)
         
         if (data.password !== data.confirmPassword) throw new CustomError('Password must be the same', 400)
 
@@ -68,16 +62,22 @@ const userController = {
         if (!user) throw new CustomError(`The provided ID doesn't match any registered IDs`, 404)
         await userServices.deactivateUser(user)
         responseCustomizer(res, 200, null, `User ${user.firstName} ${user.lastName} has been deactivated by admin`)
-    }
+    },
+    async changePassword(req, res) {
+        let updatedPassword = await userServices.changePassword({ _id: req.params.id }, req.body)
+        if (!updatedPassword) throw new CustomError(`The provided ID doesn't match any registered users, couldn't update`, 404)
+        const userRes = userDTO(updatedPassword)
+        responseCustomizer(res, 200, userRes, 'Password changed successfully')
+    },
 }
 
 export default {
     getAllUsers: errorCatcher(userController.getAllUsers),
     getOneUserByID: errorCatcher(userController.getOneUserByID),
     updateUser: errorCatcher(userController.updateUser),
-    deleteUser: errorCatcher(userController.deleteUser),
     registerUser: errorCatcher(userController.registerUser),
     logInUser: errorCatcher(userController.logInUser),
-    deactivateUser: errorCatcher(userController.deactivateUser)
+    deactivateUser: errorCatcher(userController.deactivateUser),
+    changePassword: errorCatcher(userController.changePassword)
 
 }

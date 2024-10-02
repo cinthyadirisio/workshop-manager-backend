@@ -23,7 +23,6 @@ const subjectController = {
         let subject = await subjectServices.deleteOne(req.params.id)
         if (!subject) throw new CustomError(`The provided ID doesn't match any registered subject IDs, couldn't delete`, 404)
         responseCustomizer(res, 200, subject, 'Subject deleted successfully')
-
     },
     async updateOne(req, res) {
         let subject = await subjectServices.updateOne(req.params.id, req.body)
