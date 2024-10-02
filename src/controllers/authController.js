@@ -34,6 +34,8 @@ const userController = {
 
         const emailExists = await userServices.findByEmail(data.email)
         if (emailExists) throw new CustomError('Email is already registered', 400)
+        
+        if (data.password !== data.confirmPassword) throw new CustomError('Password must be the same', 400)
 
         let hashedPassword = await userServices.hashPassword(data.password)
         data.password = hashedPassword

@@ -31,6 +31,7 @@ const userServices = {
         return hashedPassword
     },
     async registerUser(data) {
+        console.log(data)
         const user = await userModel.create(data)
         return user
     },
