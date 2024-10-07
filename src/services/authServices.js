@@ -53,9 +53,9 @@ const userServices = {
     },
     async changePassword( id, data ){
         const saltRounds = 10
-        const newPassword = bcrypt.hashSync(data, saltRounds)
-        const user = await userModel.getOneUserByID(id)
-        const passIsSame = bcrypt.compareSync(data, newPassword)
+        const newPassword = bcrypt.hashSync(data.password, saltRounds)
+        const user = await this.getOneUserByID(id)
+        const passIsSame = bcrypt.compareSync(data.password, user.password)
         if (!passIsSame) {
             const updatedUser = await userModel.findByIdAndUpdate(
               id,
