@@ -52,9 +52,21 @@ const userServices = {
         return user.isActive 
     },
     async changePassword( id, data ){
-        let updatedUser = await userModel.findByIdAndUpdate(id, data, { new: true })
-        return updatedUser
-    },
+        const saltRounds = 10
+        const newPassword = bcrypt.hashSync(data, saltRounds)
+        const user = await userModel.getOneUserByID(id)
+        const passIsSame = bcrypt.compareSync(data, newPassword)
+        if (!passIsSame) {
+            const updatedUser = await userModel.findByIdAndUpdate(
+              id,
+              { password: newPassword },
+              { new: true }
+            );
+            return updatedUser;
+          } else {
+            throw new CustomError('New password cannot be the same as the old password.', 400)
+          
+    }}
 }
 
 export default userServices

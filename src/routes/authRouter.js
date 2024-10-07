@@ -12,5 +12,6 @@ authRouter.post( '/register', schemaValidator(registerSchema) , userController.r
 authRouter.put( '/deactivate', passport.authenticate( 'jwt', {session:false} ), isAdmin, userController.deactivateUser )
 authRouter.post( '/login', schemaValidator(loginSchema) , userController.logInUser )
 authRouter.put( '/password/:id', passport.authenticate('jwt', { session: false }), userController.changePassword)
+authRouter.post( '/token', passport.authenticate('jwt', {session:false}), userController.loginToken)
 
 export default authRouter
