@@ -22,7 +22,7 @@ const workshopsController = {
         responseCustomizer(res, 201, newWorkshop, 'Workshop created successfully')
     },
     async deleteOne(req, res) {
-        let workshop = await workshopServices.createOne(req.params.id)
+        let workshop = await workshopServices.deleteOne(req.params.id)
         if (!workshop) throw new CustomError(`The provided ID doesn't match any registered IDs, couldn't delete`, 404)
         responseCustomizer(res, 200, workshop, 'Workshop deleted successfully')
     },
